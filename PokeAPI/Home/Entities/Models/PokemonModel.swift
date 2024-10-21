@@ -7,16 +7,27 @@
 
 import Foundation
 
-struct PokemonModel {
+struct PokemonModelProube: Decodable{
     let name: String
-    let id: UUID = UUID()
-    let url: String
+    let id: Int
+    let types: [PokemonType]
     var imageURL: String {
-        "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/\(url.split(separator: "/").last ?? "1").png"
+        "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/\(String(id)).png"
     }
 }
 
-
-//var imageURL: String {
-//    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(url.split(separator: "/").last ?? "1").png"
-//}
+struct PokemonType: Decodable{
+    let name: String
+    
+    enum CodingKeys: CodingKey {
+        case type
+        case name
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .type)
+        self.name = try type.decode(String.self, forKey: .name)
+    }
+    
+}

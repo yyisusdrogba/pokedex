@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol PokemonUseCaseProtocol {
-    func execute () -> AnyPublisher<[PokemonModel],PokemonErrors>
+    func execute (range: String) -> AnyPublisher<[Pokemon],Error>
     var pokemonRepository: PokemonRepositoryProtocol { get }
 }

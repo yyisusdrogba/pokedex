@@ -25,11 +25,11 @@ struct PokemonTabView: View {
 }
 
 #Preview {
-    let errorMapper = PokemonErrorsMapper()
+    let apiDataManager = PokemonAPIDataManager()
     let mapper = PokemonMapper()
-    let apiDataManager = PokemonAPIDataManager(pokemonErrorMapper: errorMapper)
     let repository = PokemonRepository(apiDataManager: apiDataManager, pokemonMapper: mapper)
     let useCase = PokemonUseCase(pokemonRepository: repository)
-    let viewModel = PokemonViewModel(useCasePokemons: useCase, useCaseRange: PokemonRangeUseCase(pokemonRepository: repository))
+    let viewModel = PokemonViewModel(useCasePokemons: useCase)
     let pokemonHome = PokemonHome(viewModel: viewModel)
-    PokemonTabView(pokemonHome: pokemonHome)}
+    PokemonTabView(pokemonHome: pokemonHome)
+}
