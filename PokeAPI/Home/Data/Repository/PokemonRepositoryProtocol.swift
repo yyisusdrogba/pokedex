@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol PokemonRepositoryProtocol {
-    func getPokemons() -> AnyPublisher<[PokemonModel],PokemonErrors>
+    func getAllPokemonsInTheRange(range: String) -> AnyPublisher<[Pokemon],Error>
     var apiDataManager: PokemonAPIDataManagerProtocol { get }
     var pokemonMapper: PokemonMapper { get }
 }

@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol PokemonAPIDataManagerProtocol {
-    func PokemonPromiseURL() -> AnyPublisher<PokemonRequestDTO, Error>
-    func pokemonRequestRange(offset: String, limit: String) -> AnyPublisher<PokemonRequestDTO,Error>
+    func pokemonRange(offset: String,limit: String) -> AnyPublisher<[String],Error>
+    func pokemonRequestAPI(url: String) -> AnyPublisher<[Pokemon],Error>
 }

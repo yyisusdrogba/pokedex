@@ -18,31 +18,15 @@ class PokemonRepository: PokemonRepositoryProtocol{
         self.pokemonMapper = pokemonMapper
     }
     
-    func getPokemons() -> AnyPublisher<[PokemonModel],PokemonErrors>{
-        apiDataManager.PokemonPromiseURL()
-            .tryMap { response in
-                guard let results = response.results else {
-                    throw PokemonErrors.otherError
-                }
-                return results.map { self.pokemonMapper.mapp(from: $0)}
-            }
-            .mapError { error -> PokemonErrors in
-                return error as? PokemonErrors ?? .otherError
-            }
-            .eraseToAnyPublisher()
-    }
-    
-    func getOtherPokemons(range: String) -> AnyPublisher<[PokemonModel],PokemonErrors>{
+    func getAllPokemonsInTheRange(range: String) -> AnyPublisher<[Pokemon],Error>{
         let (offset,limit) = range.obtainOffsetAndLimit()
-        return apiDataManager.pokemonRequestRange(offset: String(offset), limit: String(limit))
-            .tryMap { response in
-                guard let results = response.results else {
-                    throw PokemonErrors.otherError
-                }
-                return results.map { self.pokemonMapper.mapp(from: $0) }
-            }
-            .mapError { error -> PokemonErrors in
-                return error as? PokemonErrors ?? .otherError
+        return apiDataManager.pokemonRange(offset: offset, limit: limit)
+            .flatMap { urls in
+                Publishers.MergeMany(urls.map{ url in
+                    self.apiDataManager.pokemonRequestAPI(url: url)
+                        .compactMap { $0.first }
+                })
+                .collect()
             }
             .eraseToAnyPublisher()
     }

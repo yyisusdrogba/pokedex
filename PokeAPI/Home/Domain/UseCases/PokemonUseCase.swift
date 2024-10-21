@@ -16,7 +16,7 @@ class PokemonUseCase: PokemonUseCaseProtocol {
         self.pokemonRepository = pokemonRepository
     }
     
-    func execute () -> AnyPublisher<[PokemonModel],PokemonErrors>{
-        return pokemonRepository.getPokemons()
+    func execute (range: String) -> AnyPublisher<[Pokemon],Error>{
+        return pokemonRepository.getAllPokemonsInTheRange(range: range)
     }
 }

@@ -10,19 +10,17 @@ import Combine
 
 class PokemonViewModel: ObservableObject {
     
-    @Published var pokemons: [PokemonModel] = []
+    @Published var pokemons: [Pokemon] = []
     @Published var errorMessage: String = ""
     private var cancellables = Set<AnyCancellable>()
     private let useCasePokemons: PokemonUseCase
-    private let useCaseRange: PokemonRangeUseCase
     
-    init(useCasePokemons: PokemonUseCase, useCaseRange: PokemonRangeUseCase) {
+    init(useCasePokemons: PokemonUseCase) {
         self.useCasePokemons = useCasePokemons
-        self.useCaseRange = useCaseRange
     }
     
-    func getAllPokemons(){
-        useCasePokemons.execute()
+    func getAllPokemons(range: String){
+        useCasePokemons.execute(range: range)
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch completion{
@@ -34,26 +32,8 @@ class PokemonViewModel: ObservableObject {
                 }
             } receiveValue: { pokemon in
                 self.pokemons = pokemon
+                print(pokemon)
             }
             .store(in: &self.cancellables)
     }
-    
-    func getOtherRangeOfPokemons(range: String){
-        useCaseRange.execute(range: range)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion{
-                case .finished:
-                    break
-                case .failure(let error):
-                    self.errorMessage = "Error \(error)"
-                    print(error)
-                }
-            } receiveValue: { pokemon in
-                self.pokemons = pokemon
-            }
-            .store(in: &self.cancellables)
-
-    }
-    
 }
