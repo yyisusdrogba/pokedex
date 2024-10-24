@@ -9,7 +9,7 @@ import Foundation
 
 class PokemonMapper {
 
-    func mapp(model: PokemonModelProube) -> [Pokemon]{
+    func mapp(model: PokemonModel) -> [Pokemon]{
         return model.types.map { types in
             Pokemon(name: model.name, id: model.id, types: types.name)
         }

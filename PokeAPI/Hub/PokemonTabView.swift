@@ -29,7 +29,8 @@ struct PokemonTabView: View {
     let mapper = PokemonMapper()
     let repository = PokemonRepository(apiDataManager: apiDataManager, pokemonMapper: mapper)
     let useCase = PokemonUseCase(pokemonRepository: repository)
-    let viewModel = PokemonViewModel(useCasePokemons: useCase)
+    let useCaseRange = PokemonRangeUseCase(pokemonRepository: repository)
+    let viewModel = PokemonViewModel(useCasePokemons: useCase, useCaseRange: useCaseRange)
     let pokemonHome = PokemonHome(viewModel: viewModel)
     PokemonTabView(pokemonHome: pokemonHome)
 }

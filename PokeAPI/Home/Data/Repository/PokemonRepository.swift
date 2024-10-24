@@ -30,6 +30,11 @@ class PokemonRepository: PokemonRepositoryProtocol{
             }
             .eraseToAnyPublisher()
     }
+    
+    func pokemonRange() -> [PokemonRange] {
+        return apiDataManager.pokemonRequestRange()
+    }
+    
 }
 
 

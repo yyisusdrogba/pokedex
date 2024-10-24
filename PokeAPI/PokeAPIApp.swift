@@ -15,7 +15,8 @@ struct PokeAPIApp: App {
             let apiDataManager = PokemonAPIDataManager()
             let repository = PokemonRepository(apiDataManager: apiDataManager, pokemonMapper: mapper)
             let useCase = PokemonUseCase(pokemonRepository: repository)
-            let viewModel = PokemonViewModel(useCasePokemons: useCase)
+            let range = PokemonRangeUseCase(pokemonRepository: repository)
+            let viewModel = PokemonViewModel(useCasePokemons: useCase, useCaseRange: range)
             let pokemonHome = PokemonHome(viewModel: viewModel)
             PokemonTabView(pokemonHome: pokemonHome)
         }
