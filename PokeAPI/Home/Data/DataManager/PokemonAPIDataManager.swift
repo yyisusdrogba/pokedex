@@ -27,9 +27,23 @@ class PokemonAPIDataManager: PokemonAPIDataManagerProtocol{
         let urlPokemon: URL = URL(string: url)!
         return URLSession.shared.dataTaskPublisher(for: urlPokemon)
             .map(\.data)
-            .decode(type: PokemonModelProube.self, decoder: JSONDecoder())
+            .decode(type: PokemonModel.self, decoder: JSONDecoder())
             .map{ self.mapper.mapp(model: $0) }
             .eraseToAnyPublisher()
+    }
+    
+    func pokemonRequestRange() -> [PokemonRange] {
+        return  [
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.oneToOneHundredTwo),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.oneHundredThreeToTwoHundredSix),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.twoHundredSixToThreeHundredNine),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.threeHundredNineToFourHundredTwelve),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.fourHundredTwelveToFiveHundredFifteen),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.fiveHundredFifteenToSixHundredEighteen),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.sixHundredEighteenToSevenHundredTwenntyOne),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.sevenHundredTwentyOneToEightHundredTwentyFour),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.eightHundredTwentyFourToNineHundredTwnetySeven),
+            PokemonRange(title: PokemonConstants.PokemonRangeConstants.nineHundredTwentySevenToOneThousandTwentySeven)]
     }
 }
 

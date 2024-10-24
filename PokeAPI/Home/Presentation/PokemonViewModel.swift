@@ -11,12 +11,15 @@ import Combine
 class PokemonViewModel: ObservableObject {
     
     @Published var pokemons: [Pokemon] = []
+    @Published var buttonCustomize: [PokemonRange] = []
     @Published var errorMessage: String = ""
     private var cancellables = Set<AnyCancellable>()
-    private let useCasePokemons: PokemonUseCase
+    private let useCasePokemons: PokemonUseCaseProtocol
+    private let useCaseRange: PokemonRangeUseCaseProtocol
     
-    init(useCasePokemons: PokemonUseCase) {
+    init(useCasePokemons: PokemonUseCaseProtocol, useCaseRange: PokemonRangeUseCaseProtocol) {
         self.useCasePokemons = useCasePokemons
+        self.useCaseRange = useCaseRange
     }
     
     func getAllPokemons(range: String){
@@ -35,5 +38,11 @@ class PokemonViewModel: ObservableObject {
                 print(pokemon)
             }
             .store(in: &self.cancellables)
+    }
+    
+    func getRange() {
+        DispatchQueue.main.async {
+            self.buttonCustomize = self.useCaseRange.execute()
+        }
     }
 }

@@ -11,4 +11,5 @@ import Combine
 protocol PokemonAPIDataManagerProtocol {
     func pokemonRange(offset: String,limit: String) -> AnyPublisher<[String],Error>
     func pokemonRequestAPI(url: String) -> AnyPublisher<[Pokemon],Error>
+    func pokemonRequestRange() -> [PokemonRange] 
 }
